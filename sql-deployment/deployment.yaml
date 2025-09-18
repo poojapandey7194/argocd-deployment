@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql
-  namespace: default   # Add your namespace here
 spec:
   selector:
     matchLabels:
