@@ -1,7 +1,8 @@
-apiVersion: apps/v1 
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql
+  namespace: default   # Add your namespace here
 spec:
   selector:
     matchLabels:
@@ -10,24 +11,23 @@ spec:
     type: Recreate
   template:
     metadata:
-      Labels:
+      labels:           # lowercase
         app: mysql
-  spec:
-    containers:
-    - image: mysql:5.6
-      name: mysql
-      env:
-# Use secret in real usage name: MYSQL_ROOT_PASSWORD value: password
-      - name: MYSQL_ROOT_PASSWORD
-        value: test123
-      - name:MYSQL_ROOT_HOST
-        value:"%"
-      ports:
-      - containerPort: 3306
-        name: mysql
-      volumeMounts:
-      - name: mysql-persistent-storage
-        mountPath: /var/lib/mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:5.6
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: test123
+        - name: MYSQL_ROOT_HOST
+          value: "%"
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
       volumes:
       - name: mysql-persistent-storage
         persistentVolumeClaim:
